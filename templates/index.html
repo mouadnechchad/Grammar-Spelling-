@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Correction</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='your_style.css') }}">
+</head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('correctionForm');
+  const correctedSentenceSpan = document.getElementById('correctedSentence');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const inputSentence = document.getElementById('sentence').value;
+
+    try {
+      const response = await fetch('/correct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sentence: inputSentence }),
+      });
+
+      const data = await response.json();
+      correctedSentenceSpan.textContent = data.correctedSentence;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+});
+
+
+</script> 
+<body>
+  <form id="correctionForm">
+    <label for="sentence">Enter a sentence:</label>
+    <input type="text" id="sentence" name="sentence" required>
+    <button type="submit">Correct</button>
+  </form>
+  <p>Corrected sentence: <span id="correctedSentence"></span></p>
+
+ 
+  
+</body>
+</html>

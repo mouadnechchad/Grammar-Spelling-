@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/icon type">
+  <title>Spelling and Grammar Checker</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='interface.css') }}">
+</head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('correctionForm');
+  const correctedSentenceSpan = document.getElementById('correctedSentence');
+  console.log(correctedSentenceSpan)
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const inputSentence = document.getElementById('sentence').value;
+    console.log(inputSentence)
+    try {
+      const response = await fetch('/correct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sentence: inputSentence }),
+      });
+
+      const data = await response.json();
+      correctedSentenceSpan.textContent = data.correctedSentence;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+});
+
+
+</script> 
+<body>
+  <br>
+  <div id=mainPage>
+      <h1>Spelling and Grammar Checker</h1>
+      <div id="form">
+          <form id="correctionForm">
+             <div id="features">
+                 <div class="double">
+                 <textarea  type="text" id="sentence" name="sentence" placeholder="Paste or enter your text here to find spelling and grammar errors..." cols="132" rows="5" required></textarea>
+                 </div>
+             </div>
+             <div id="button">
+                 <input type="submit" value="Correct">
+             </div>
+             <div id="features">
+              <div class="double">
+              <textarea id="correctedSentence" placeholder="the correct text" name="text" cols="132" rows="5" ></textarea>
+              </div>
+          </div>
+         </form>
+      </div>
+      <br>
+      <style>
+         p {
+             color: p_color
+         }
+     </style>           
+  </div>
+  <footer>&copy;&nbsp;2023 Checker. All rights reserved.</footer>
+</html>
