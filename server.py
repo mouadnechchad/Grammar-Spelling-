@@ -41,28 +41,4 @@ def correct():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port="5000",debug=True)
-
-    
-        # Split the output by newline and get the last line
-        lines = correction_output.split('\n')
-        corrected_sentence = lines[-1].strip()
-        print("Corrected sentence:", corrected_sentence)
-        
-        return jsonify(correctedSentence=corrected_sentence)
-    
-    except subprocess.CalledProcessError as e:
-        # Handle subprocess errors by printing the error and returning an error response
-        error_message = str(e.output, 'utf-8')
-        print("Error from subprocess:", error_message)
-        return jsonify(error=error_message)
-
-    except Exception as e:
-        # Handle other exceptions (e.g., JSON parsing error) and log them
-        error_message = str(e)
-        print("Unhandled exception:", error_message)
-        return jsonify(error=error_message)
-
-
-if __name__ == '__main__':
     app.run(debug=True)
